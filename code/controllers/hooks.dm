@@ -35,5 +35,4 @@
 		if(!call(hook_instance, P)(arglist(args)))
 			error("Hook '[P]' failed or runtimed.")
 			status = 0
-
-	return status
+		return status
