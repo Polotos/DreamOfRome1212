@@ -9,7 +9,7 @@
 	movement_delay = 1
 	has_coldbreath = TRUE
 	atom_flags = ATOM_FLAG_CLIMBABLE
-	var/has_light = TRUE
+        has_light = TRUE
 	var/can_generate_water = TRUE
 	var/can_be_dug = TRUE
 
@@ -218,7 +218,7 @@
 	movement_delay = 3
 	mudpit = 1
 	has_coldbreath = TRUE
-	var/has_light = TRUE
+        has_light = TRUE
 	atom_flags = ATOM_FLAG_CLIMBABLE
 
 /turf/simulated/floor/exoplanet/water/shallow/update_dirt()
@@ -401,7 +401,7 @@
 	name = "grass" //"snowy dirt"
 	icon = 'icons/turf/dirt.dmi'
 	icon_state = "grass1"
-	var/has_light = TRUE
+        has_light = TRUE
 
 /turf/simulated/floor/newgrass/New()
 	..()
