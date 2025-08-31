@@ -29,7 +29,8 @@
 
 	var/movement_delay
 
-	var/has_coldbreath = FALSE
+var/has_coldbreath = FALSE
+var/has_light = TRUE
 
 /turf/New()
 	..()
