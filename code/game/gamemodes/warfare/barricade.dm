@@ -152,13 +152,14 @@
 	. = ..()
 
 /obj/structure/defensive_barrier/proc/take_damage(damage)
+
 	if(!damage)
 	return
 	playsound(src.loc, 'sound/effects/bang.ogg', 75, 1)
 	var/reduced = round(damage * 0.5)
 	if(reduced)
 	return ..(reduced)
-
+  
 /obj/structure/defensive_barrier/proc/check_cover(obj/item/projectile/P, turf/from)
 	var/turf/cover = get_turf(src)
 	if(!cover)
