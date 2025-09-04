@@ -88,9 +88,9 @@ datum/preferences
 	dat += "<p align ='right'>"
 	dat += "<a onfocus ='this.blur()' href='byond://?src=\ref[src];toggletitle=1'>X</a></p>"
 	if(path)
-		dat += "<a onfocus ='this.blur()' href='?src=\ref[src];save=1'>Save Slot</a> -"
-		dat += "<a onfocus ='this.blur()' href='?src=\ref[src];resetslot=1'>Reset Slot</a> -"
-		dat += "<a onfocus ='this.blur()' href='?src=\ref[src];load=1'>Personalities in your head</a>"
+		dat += "<a onfocus ='this.blur()' href='byond://?src=\ref[src];save=1'>Save Slot</a> -"
+		dat += "<a onfocus ='this.blur()' href='byond://?src=\ref[src];resetslot=1'>Reset Slot</a> -"
+		dat += "<a onfocus ='this.blur()' href='byond://?src=\ref[src];load=1'>Personalities in your head</a>"
 	dat += "<br>"
 	dat += player_setup.header()
 	dat += "<br>"
@@ -293,7 +293,7 @@ datum/preferences
 			if(!name)	name = "Character[i]"
 			if(i==default_slot)
 				name = "<b>[name]</b>"
-			dat += "<a href='?src=\ref[src];changeslot=[i]'>[name]</a><br>"
+			dat += "<a href='byond://?src=\ref[src];changeslot=[i]'>[name]</a><br>"
 
 	dat += "<hr>"
 	dat += "</center></tt>"

@@ -22,6 +22,8 @@ __pycache__
 # ignore config, but not subdirs
 !config/*/
 config/*
+!config/names/
+!config/names/**
 sql/test_db
 .vscode/tasks.json
 .vscode/settings.json

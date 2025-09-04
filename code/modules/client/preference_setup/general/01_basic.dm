@@ -56,9 +56,9 @@ datum/preferences
 	*/
 	. += "<p style='position: absolute;right: 50px; bottom: 50px;'><a onfocus='this.blur()' href='byond://?src=\ref[user];late_join=1' class='active'><b>Join the Game!</a></p>"
 	. += "<b>Name:</b> "
-	. += "<a onfocus ='this.blur()' href='?src=\ref[src];rename=1'><b>[pref.real_name]</b></a> <a onfocus ='this.blur()' href='?src=\ref[src];random_name=1'>&reg;</a><br>"
-	. += "<b>Gender:</b> <a onfocus ='this.blur()' href='?src=\ref[src];gender=1'><b>[gender2text(pref.gender)]</b></a><br>"
-	. += "<b>Age:</b> <a onfocus ='this.blur()' href='?src=\ref[src];age=1'>[pref.age]</a><br>"
+	. += "<a onfocus ='this.blur()' href='byond://?src=\ref[src];rename=1'><b>[pref.real_name]</b></a> <a onfocus ='this.blur()' href='byond://?src=\ref[src];random_name=1'>&reg;</a><br>"
+	. += "<b>Gender:</b> <a onfocus ='this.blur()' href='byond://?src=\ref[src];gender=1'><b>[gender2text(pref.gender)]</b></a><br>"
+	. += "<b>Age:</b> <a onfocus ='this.blur()' href='byond://?src=\ref[src];age=1'>[pref.age]</a><br>"
 	if(GLOB.using_map.map_lore)
 		. += "<b>Historical Debrief:</b><br>"
 		. += "[GLOB.using_map.map_lore]<br>"//Put the map lore here if there is any.
