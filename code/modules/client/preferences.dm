@@ -147,18 +147,18 @@ datum/preferences
 
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, is_preview_copy = FALSE)
 	// Sanitizing rather than saving as someone might still be editing when copy_to occurs.
-        player_setup.sanitize_setup()
-        var/datum/species/S
-        if(islist(all_species))
-                S = all_species[species] || all_species[SPECIES_HUMAN]
-        if(!S)
-                S = new /datum/species/human
-                if(islist(all_species))
-                        all_species[S.name] = S
-                else
-                        all_species = list(S.name = S)
-        species = S.name
-        character.set_species(species)
+	player_setup.sanitize_setup()
+	var/datum/species/S
+	if(islist(all_species))
+		S = all_species[species] || all_species[SPECIES_HUMAN]
+	if(!S)
+		S = new /datum/species/human
+		if(islist(all_species))
+			all_species[S.name] = S
+		else
+			all_species = list(S.name = S)
+	species = S.name
+	character.set_species(species)
 	if(be_random_name)
 		real_name = random_name(gender,species)
 
