@@ -30,15 +30,18 @@ datum/preferences
 	S["religion"]				<< pref.religion
 
 /datum/category_item/player_setup_item/general/basic/sanitize_character()
-	var/datum/species/S = all_species[pref.species ? pref.species : SPECIES_HUMAN]
-	if(!S) S = all_species[SPECIES_HUMAN]
-	pref.age                = sanitize_integer(pref.age, S.min_age, S.max_age, initial(pref.age))
-	pref.gender             = sanitize_inlist(pref.gender, S.genders, pick(S.genders))
-	pref.real_name          = sanitize_name(pref.real_name, pref.species)
-	if(!pref.real_name)
-		pref.real_name      = random_name(pref.gender, pref.species)
-	pref.spawnpoint         = sanitize_inlist(pref.spawnpoint, spawntypes(), initial(pref.spawnpoint))
-	pref.be_random_name     = sanitize_integer(pref.be_random_name, 0, 1, initial(pref.be_random_name))
+        var/datum/species/S
+        if(islist(all_species))
+                S = all_species[pref.species ? pref.species : SPECIES_HUMAN] || all_species[SPECIES_HUMAN]
+        if(!S)
+                S = new /datum/species/human
+        pref.age                = sanitize_integer(pref.age, S.min_age, S.max_age, initial(pref.age))
+        pref.gender             = sanitize_inlist(pref.gender, S.genders, pick(S.genders))
+        pref.real_name          = sanitize_name(pref.real_name, pref.species)
+        if(!pref.real_name)
+                pref.real_name      = random_name(pref.gender, pref.species)
+        pref.spawnpoint         = sanitize_inlist(pref.spawnpoint, spawntypes(), initial(pref.spawnpoint))
+        pref.be_random_name     = sanitize_integer(pref.be_random_name, 0, 1, initial(pref.be_random_name))
 
 
 /datum/category_item/player_setup_item/general/basic/content(mob/user)
@@ -68,7 +71,11 @@ datum/preferences
 	. = jointext(.,null)
 
 /datum/category_item/player_setup_item/general/basic/OnTopic(var/href,var/list/href_list, var/mob/user)
-	var/datum/species/S = all_species[pref.species]
+        var/datum/species/S
+        if(islist(all_species))
+                S = all_species[pref.species] || all_species[SPECIES_HUMAN]
+        if(!S)
+                S = new /datum/species/human
 	if(href_list["rename"])
 		var/raw_name = input(user, "Choose your character's name:", "Character Name")  as text|null
 		if (!isnull(raw_name) && CanUseTopic(user))
@@ -88,13 +95,12 @@ datum/preferences
 		pref.be_random_name = !pref.be_random_name
 		return TOPIC_REFRESH
 
-	else if(href_list["gender"])
-		var/new_gender = MALE
-		S = all_species[pref.species]
-		pref.gender = new_gender
-		if(!(pref.f_style in S.get_facial_hair_styles(pref.gender)))
-			ResetFacialHair()
-		return TOPIC_REFRESH_UPDATE_PREVIEW
+        else if(href_list["gender"])
+                var/new_gender = MALE
+                pref.gender = new_gender
+                if(!(pref.f_style in S.get_facial_hair_styles(pref.gender)))
+                        ResetFacialHair()
+                return TOPIC_REFRESH_UPDATE_PREVIEW
 
 	else if(href_list["age"])
 		var/new_age = input(user, "Choose your character's age:\n([S.min_age]-[S.max_age])", CHARACTER_PREFERENCE_INPUT_TITLE, pref.age) as num|null
