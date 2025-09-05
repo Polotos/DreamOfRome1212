@@ -30,8 +30,11 @@ datum/preferences
 	S["religion"]				<< pref.religion
 
 /datum/category_item/player_setup_item/general/basic/sanitize_character()
-	var/datum/species/S = all_species[pref.species ? pref.species : SPECIES_HUMAN]
-	if(!S) S = all_species[SPECIES_HUMAN]
+	var/datum/species/S
+	if(islist(all_species))
+		S = all_species[pref.species ? pref.species : SPECIES_HUMAN] || all_species[SPECIES_HUMAN]
+	if(!S)
+		S = new /datum/species/human
 	pref.age                = sanitize_integer(pref.age, S.min_age, S.max_age, initial(pref.age))
 	pref.gender             = sanitize_inlist(pref.gender, S.genders, pick(S.genders))
 	pref.real_name          = sanitize_name(pref.real_name, pref.species)
@@ -56,9 +59,9 @@ datum/preferences
 	*/
 	. += "<p style='position: absolute;right: 50px; bottom: 50px;'><a onfocus='this.blur()' href='byond://?src=\ref[user];late_join=1' class='active'><b>Join the Game!</a></p>"
 	. += "<b>Name:</b> "
-	. += "<a onfocus ='this.blur()' href='?src=\ref[src];rename=1'><b>[pref.real_name]</b></a> <a onfocus ='this.blur()' href='?src=\ref[src];random_name=1'>&reg;</a><br>"
-	. += "<b>Gender:</b> <a onfocus ='this.blur()' href='?src=\ref[src];gender=1'><b>[gender2text(pref.gender)]</b></a><br>"
-	. += "<b>Age:</b> <a onfocus ='this.blur()' href='?src=\ref[src];age=1'>[pref.age]</a><br>"
+	. += "<a onfocus ='this.blur()' href='byond://?src=\ref[src];rename=1'><b>[pref.real_name]</b></a> <a onfocus ='this.blur()' href='byond://?src=\ref[src];random_name=1'>&reg;</a><br>"
+	. += "<b>Gender:</b> <a onfocus ='this.blur()' href='byond://?src=\ref[src];gender=1'><b>[gender2text(pref.gender)]</b></a><br>"
+	. += "<b>Age:</b> <a onfocus ='this.blur()' href='byond://?src=\ref[src];age=1'>[pref.age]</a><br>"
 	if(GLOB.using_map.map_lore)
 		. += "<b>Historical Debrief:</b><br>"
 		. += "[GLOB.using_map.map_lore]<br>"//Put the map lore here if there is any.
@@ -68,7 +71,11 @@ datum/preferences
 	. = jointext(.,null)
 
 /datum/category_item/player_setup_item/general/basic/OnTopic(var/href,var/list/href_list, var/mob/user)
-	var/datum/species/S = all_species[pref.species]
+	var/datum/species/S
+	if(islist(all_species))
+		S = all_species[pref.species] || all_species[SPECIES_HUMAN]
+	if(!S)
+		S = new /datum/species/human
 	if(href_list["rename"])
 		var/raw_name = input(user, "Choose your character's name:", "Character Name")  as text|null
 		if (!isnull(raw_name) && CanUseTopic(user))
@@ -89,12 +96,12 @@ datum/preferences
 		return TOPIC_REFRESH
 
 	else if(href_list["gender"])
-		var/new_gender = MALE
-		S = all_species[pref.species]
-		pref.gender = new_gender
-		if(!(pref.f_style in S.get_facial_hair_styles(pref.gender)))
-			ResetFacialHair()
-		return TOPIC_REFRESH_UPDATE_PREVIEW
+		var/new_gender = input(user, "Choose your character's gender:", CHARACTER_PREFERENCE_INPUT_TITLE, pref.gender) as null|anything in S.genders
+		if(new_gender && CanUseTopic(user))
+			pref.gender = new_gender
+			if(!(pref.f_style in S.get_facial_hair_styles(pref.gender)))
+				ResetFacialHair()
+			return TOPIC_REFRESH_UPDATE_PREVIEW
 
 	else if(href_list["age"])
 		var/new_age = input(user, "Choose your character's age:\n([S.min_age]-[S.max_age])", CHARACTER_PREFERENCE_INPUT_TITLE, pref.age) as num|null
